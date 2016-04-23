@@ -1,0 +1,92 @@
+<html>
+	<head>
+		<title>Sign Up | Authorization System using Keystroke dynamics</title>
+	</head>
+	<body>
+	<p>Type password repeatedly</p>
+		
+		<form action='http://127.0.0.1:8000/formpage/' method="POST" id="my">{% csrf_token %}
+		Type the above Paragraph:<br>
+		<textarea rows="7" cols="60" form= "my" onkeydown="downFunc(event)" onkeyup="upFunc(event)"></textarea>
+		{{ form.as_p }}
+			
+			<!--<input type="text" name="para" onkeydown="downFunc(event)" onkeyup="upFunc(event)" ><br><br>
+			Timestamp:<br>
+			<input type="text" name="ti" id= "ti"><br>
+			KeyCode:<br>
+			<input type="text" name="ke" id= "ke"><br>
+			Spin:<br>
+			<input type="text" name="sp" id= "sp"><br>	-->		
+			<input type="submit" name="GO"><br>
+		</form>		
+		<p>Dwell Time<br>{{dwell}}<br>Flight Time<br>{{flight}}</p>
+		<button type="button" onclick="printArray()">Click Me!</button>
+		<script>
+/*			var down = [];
+			var up = [];
+			function downfunction () { 
+    			var d = new Date();
+    			var n = d.getTime();
+    			down.push(n);
+    		}
+ 			function upfunction () { 
+    			var d = new Date();
+    			var n = d.getTime();
+    			up.push(n)    		
+    		}   		
+*///onkeydown=downfunction() onkeyup=upfunction()
+			var strokes = [{time:1460391058286, key: 65, spin: 0}];
+
+			function downFunc(event) {
+    			var x = event.which || event.keyCode;
+    			var d = new Date();
+    			var t = d.getTime();
+    			var k ={time:t,key:x, spin:0};
+    			strokes.push(k);
+    			//document.getElementById("demodown").innerHTML = strokes;
+			}
+
+			function upFunc(event) {
+    			var x = event.which || event.keyCode;
+    			var d = new Date();
+    			var t = d.getTime();
+    			var k ={time:t,key:x, spin: 1};
+    			strokes.push(k);
+    			//document.getElementById("demodown").innerHTML = strokes;
+			}
+
+			function printArray(){
+				var textt = "";
+				var textk = "";
+				var texts = "";
+				for(var i = 0;i<strokes.length;i++){
+					textt = textt + strokes[i].time + ",";
+					textk = textk + strokes[i].key + ",";
+					texts = texts + strokes[i].spin + ",";
+				}
+
+				document.getElementById('id_timecsv').value = textt;
+				document.getElementById('id_keycsv').value = textk;
+				document.getElementById('id_spincsv').value = texts;
+
+				//window.open('data:text/csv;charset=utf-8,' + escape(strokes));
+			}
+
+
+			/*jQuery.ajax({
+    			type: "POST",
+    			url: "http://127.0.0.1:8000/formpage/",
+    			data: JSON.stringify(strokes),
+    			contentType: "application/json; charset=utf-8",
+    			dataType: "json",
+    			success: function(data){
+        			var jsonObj = jQuery.parseJSON(data);
+        			alert(jsonObj.encPassword);
+    			},
+    			failure: function(errorMsg) {
+        			alert(errorMsg);
+    			}
+			});*/
+		</script>
+	</body>
+</html>
