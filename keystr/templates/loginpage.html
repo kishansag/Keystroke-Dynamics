@@ -1,0 +1,57 @@
+<html>
+	<head>
+		<title>Log In | Authorization System using Keystroke dynamics</title>
+	</head>
+	<body>
+	<p></p>
+		
+		<form action='http://127.0.0.1:8000/loginpage/' method="POST" id="my">{% csrf_token %}
+		Type the above Paragraph:<br>
+		<textarea rows="7" cols="60" form= "my" onkeydown="downFunc(event)" onkeyup="upFunc(event)"></textarea>
+		{{ form.as_p }}
+			
+			<input type="submit" name="GO"><br>
+		</form>		
+		
+		<button type="button" onclick="printArray()">Click Me!</button>
+		<p>Dwell Time<br>{{dwell}}<br>Flight Time<br>{{flight}}<br>Dwell difference<br>{{ddiff}}<br>Flight difference<br>{{fdiff}}<br>Euclidean Distance in Dwell Time<br>{{ddist}}<br>Euclidean Distance in Flight Time<br>{{fdist}}</p>
+		<script>
+
+			//var strokes = [{time:1460391058286, key: 65, spin: 0}];
+			var strokes = [];
+
+			function downFunc(event) {
+    			var x = event.which || event.keyCode;
+    			var d = new Date();
+    			var t = d.getTime();
+    			var k ={time:t,key:x, spin:0};
+    			strokes.push(k);
+    			//document.getElementById("demodown").innerHTML = strokes;
+			}
+
+			function upFunc(event) {
+    			var x = event.which || event.keyCode;
+    			var d = new Date();
+    			var t = d.getTime();
+    			var k ={time:t,key:x, spin: 1};
+    			strokes.push(k);
+    			//document.getElementById("demodown").innerHTML = strokes;
+			}
+
+			function printArray(){
+				var textt = "";
+				var textk = "";
+				var texts = "";
+				for(var i = 0;i<strokes.length;i++){
+					textt = textt + strokes[i].time + ",";
+					textk = textk + strokes[i].key + ",";
+					texts = texts + strokes[i].spin + ",";
+				}
+
+				document.getElementById('id_timecsv').value = textt;
+				document.getElementById('id_keycsv').value = textk;
+				document.getElementById('id_spincsv').value = texts;
+			}
+		</script>
+	</body>
+</html>
